@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
         #(発展)ここへアソシエーションを記述 
   has_many :prototypes
-  has_many :comments
+  has_many :comments 
 
          #(発展)ここへ一定の制約をかけるバリデーションを記述
          #emailとpasswordはデフォルトで入っているので記述不要

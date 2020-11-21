@@ -1,7 +1,6 @@
 class PrototypesController < ApplicationController
   before_action :authenticate_user!
-
-  before_action :move_to_index, except: :edit
+  before_action :move_to_index, except:[:index , :show]
 
   def index
     @prototypes = Prototype.all.includes(:user)
@@ -47,7 +46,8 @@ class PrototypesController < ApplicationController
       @prototype = Prototype.find(params[:id])
       @prototype.destroy
       redirect_to root_path
-  end
+     
+    end
 
   # (発展)プライベートメソッドを記述して、以降classで定義されていない記述は呼び出せないようにする
   # エラーが出にくくなる、可視化されエラーが出た際にプライベートメソッドは見なくてよいので解決しやすくなる
@@ -57,7 +57,9 @@ class PrototypesController < ApplicationController
   end
   
   def move_to_index
-   unless user_signed_in?
+    @prototype = Prototype.find(params[:id])
+    unless user_signed_in? && current_user.id == @prototype.user_id
+  
      redirect_to action: :index
   end
 end
